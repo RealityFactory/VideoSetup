@@ -7,7 +7,7 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "windows.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -34,25 +34,13 @@ END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""windows.h""\r\n"
     "\0"
 END
 
 3 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
-    "#define _AFX_NO_OLE_RESOURCES\r\n"
-    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
-    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
     "\r\n"
-    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
-    "#ifdef _WIN32\r\n"
-    "LANGUAGE 9, 1\r\n"
-    "#pragma code_page(1252)\r\n"
-    "#endif //_WIN32\r\n"
-    "#include ""res\\VideoSetup.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
-    "#include ""afxres.rc""         // Standard components\r\n"
-    "#endif\r\n"
     "\0"
 END
 
@@ -66,52 +54,72 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\icon1.ico"
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\VideoSetup.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RT_MANIFEST
+//
+
+1                       RT_MANIFEST MOVEABLE PURE "VideoSetup.exe.manifest"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_VIDEOSETUP_DIALOG DIALOGEX 0, 0, 409, 334
-STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+IDD_VIDEOSETUP_DIALOG DIALOGEX 0, 0, 301, 292
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "Video Setup "
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "Accept",IDOK,333,19,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,333,42,50,14
-    CONTROL         "Faster Direct3D video driver - may not work on all systems",
-                    IDC_D3D32,"Button",BS_AUTORADIOBUTTON | WS_GROUP,27,28,
-                    198,16
-    CONTROL         "Regular Direct3D video driver - compatible with most systems",
-                    IDC_D3D16,"Button",BS_AUTORADIOBUTTON | WS_GROUP,27,46,
-                    205,17
-    CONTROL         "OpenGl video driver",IDC_OPENGL,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,27,65,160,16
-    GROUPBOX        "Video Driver Selection",IDC_STATIC,20,14,222,73
-    GROUPBOX        "Color Depth",IDC_STATIC,247,15,77,43
+    DEFPUSHBUTTON   "Accept",IDOK,221,91,65,14
+    PUSHBUTTON      "Cancel",IDCANCEL,221,110,65,14
+    CONTROL         "Direct3D 7",IDC_D3D32,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,21,25,57,16
+    CONTROL         "Direct3D 6",IDC_D3D16,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,21,39,57,16
+    CONTROL         "OpenGL",IDC_OPENGL,"Button",BS_AUTORADIOBUTTON | 
+                    WS_GROUP,21,53,57,16
+    GROUPBOX        "Video Driver",IDC_STATIC,14,14,111,64
+    GROUPBOX        "Color Depth",IDC_STATIC,135,14,77,43
     CONTROL         "32 bit color",IDC_32BIT,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,257,25,61,13
+                    WS_GROUP,145,25,61,13
     CONTROL         "16 bit color",IDC_16BIT,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP,257,39,57,15
-    CONTROL         "Standard    - 640x480",IDC_LOW,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,27,106,84,13
+                    WS_GROUP,145,39,57,15
+    CONTROL         "Small          - 640x480",IDC_LOW,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP,21,98,84,13
     CONTROL         "Medium      - 800x600",IDC_MED,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,122,105,86,13
+                    BS_AUTORADIOBUTTON | WS_GROUP,116,98,86,13
     CONTROL         "Large         - 1024x768",IDC_HIGH,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,27,121,89,13
+                    BS_AUTORADIOBUTTON | WS_GROUP,21,113,89,13
     CONTROL         "Very Large - 1280x1024",IDC_VHIGH,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,122,119,92,13
-    GROUPBOX        "Screen Resolution",IDC_STATIC,20,94,198,59
+                    BS_AUTORADIOBUTTON | WS_GROUP,116,113,92,13
+    GROUPBOX        "Screen Resolution",IDC_STATIC,14,87,198,59
     CONTROL         "Windowed - 800x600",IDC_WINDOW,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,27,134,87,13
-    CONTROL         129,IDC_STATIC,"Static",SS_BITMAP,253,74,65,79
-    PUSHBUTTON      "Advanced >>",IDC_ADVANCE,333,136,50,16
-    LTEXT           "Collapsed",IDC_SHRINKMARK,187,155,49,8
-    LTEXT           "<< Close",IDC_LESSTEXT,137,319,38,8
-    GROUPBOX        "Direct3D",IDC_STATIC,22,175,178,140
-    GROUPBOX        "OpenGl",IDC_STATIC,209,175,178,140
+                    BS_AUTORADIOBUTTON | WS_GROUP,21,127,87,13
+    CONTROL         129,IDC_LOGO,"Static",SS_BITMAP,221,18,65,60,
+                    WS_EX_STATICEDGE
+    PUSHBUTTON      "Advanced >>",IDC_ADVANCE,221,129,65,16
+    LTEXT           "Collapsed",IDC_SHRINKMARK,163,148,37,8
+    LTEXT           "<< Close",IDC_LESSTEXT,237,148,38,8
+    GROUPBOX        "Direct3D",IDC_STATIC,15,164,130,115
+    GROUPBOX        "OpenGL",IDC_STATIC,157,164,130,115
+    CONTROL         "Triple Buffering",IDC_TRIPLEBUFFERING,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,178,63,10
+    CONTROL         "Texture Compression",IDC_TEXTURECOMPRESSION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,191,82,10
+    CONTROL         "Full Scene Anti-Aliasing",IDC_FSAA,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,204,89,10
+    CONTROL         "Extra Textures",IDC_EXTRATEXTURES,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,217,61,10
+    CONTROL         "No VSync",IDC_NOVSYNC,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,230,48,10
+    CONTROL         "ASync",IDC_ASYNC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    21,243,37,10
+    CONTROL         "DoNotWait",IDC_DONOTWAIT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,256,51,10
 END
 
 
@@ -139,13 +147,13 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "CompanyName", "\0"
-            VALUE "FileDescription", "VideoSetup MFC Application\0"
+            VALUE "FileDescription", "VideoSetup\0"
             VALUE "FileVersion", "1, 0, 0, 1\0"
             VALUE "InternalName", "VideoSetup\0"
             VALUE "LegalCopyright", "Copyright (C) 2003\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "VideoSetup.EXE\0"
-            VALUE "ProductName", "VideoSetup Application\0"
+            VALUE "ProductName", "VideoSetup\0"
             VALUE "ProductVersion", "1, 0, 0, 1\0"
         END
     END
@@ -169,9 +177,9 @@ BEGIN
     IDD_VIDEOSETUP_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 402
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 327
+        RIGHTMARGIN, 294
+        TOPMARGIN, 9
+        BOTTOMMARGIN, 285
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -193,19 +201,7 @@ IDB_BITMAP1             BITMAP  DISCARDABLE     "res\\RFLogo.bmp"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-#define _AFX_NO_SPLITTER_RESOURCES
-#define _AFX_NO_OLE_RESOURCES
-#define _AFX_NO_TRACKER_RESOURCES
-#define _AFX_NO_PROPERTY_RESOURCES
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE 9, 1
-#pragma code_page(1252)
-#endif //_WIN32
-#include "res\VideoSetup.rc2"  // non-Microsoft Visual C++ edited resources
-#include "afxres.rc"         // Standard components
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED

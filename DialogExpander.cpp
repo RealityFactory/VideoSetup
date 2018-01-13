@@ -1,104 +1,102 @@
-
-
 // Expanding and collapsing dialogs
 //
 // Michael Walz (walz@epsitec.ch)
 // Dec. 99
 //
 
-#include "stdafx.h"
+#include <windows.h>
 #include "DialogExpander.h"
 
 
-void ShrinkDialog(CWnd *pDlg, int idmark)
+void ShrinkDialog(HWND pDlg, int idmark)
 {
-  ASSERT(pDlg != NULL) ;
-  CWnd *pWndMark = pDlg->GetDlgItem(idmark) ;
-  ASSERT(pWndMark != NULL) ;
-  CRect markrect ;
-  CRect dlgrect ;
-  CRect clientrect ;
-  CWnd *pParentWnd = pDlg->GetParent() ;
-  int offset ;
+	HWND pWndMark = GetDlgItem(pDlg, idmark);
+	RECT markrect;
+	RECT dlgrect;
+	RECT clientrect;
+	HWND pParentWnd = GetParent(pDlg);
+	int offset;
 
-  pDlg->GetClientRect(&clientrect) ;  // clientrect of the dialog
-  pDlg->GetWindowRect(&dlgrect) ;	  // rectangle of the dialog window
+	GetClientRect(pDlg, &clientrect);  // clientrect of the dialog
+	GetWindowRect(pDlg, &dlgrect);	  // rectangle of the dialog window
 
-  // get height of the title bar
-  offset = dlgrect.Height() - clientrect.bottom ;
+	// get height of the title bar
+	offset = (dlgrect.bottom - dlgrect.top) - clientrect.bottom;
 
-  pWndMark->GetWindowRect(&markrect) ;
+	GetWindowRect(pWndMark, &markrect);
+	ScreenToClient(pDlg, (LPPOINT)&markrect);
+	ScreenToClient(pDlg, ((LPPOINT)&markrect)+1);
 
+	// calculate the new rectangle of the dialog window
+	dlgrect.bottom = dlgrect.top + markrect.bottom + offset;
 
-  pDlg->ScreenToClient(&markrect) ;
-
-  // calculate the new rectangle of the dialog window
-  dlgrect.bottom = dlgrect.top + markrect.bottom + offset;
-
-  pDlg->MoveWindow (dlgrect.left, dlgrect.top, dlgrect.Width(), dlgrect.Height()) ;
+	MoveWindow(pDlg, dlgrect.left, dlgrect.top, (dlgrect.right-dlgrect.left), (dlgrect.bottom-dlgrect.top), TRUE);
 }
 
 
 CExpandDialog::CExpandDialog()
 {
-  m_bIsInitialized = FALSE ;
+	m_bIsInitialized = FALSE;
 }
 
 
-void CExpandDialog::Initialize(CWnd *pDialog, BOOL bInitiallyExpanded,
-						  int IdExpandButton, int IdCollapsedMark,
-						  int IdCollapsedText)
+void CExpandDialog::Initialize(
+	HWND pDialog,
+	BOOL bInitiallyExpanded,
+	int IdExpandButton,
+	int IdCollapsedMark,
+	int IdCollapsedText)
 {
-  m_IdExpandButton = IdExpandButton;
-  m_IdCollapsedMark = IdCollapsedMark;
-  m_IdCollapsedText = IdCollapsedText;
-  m_bIsInitialized = TRUE ;
-  m_pDialog = pDialog ;
-  m_bIsExpanded = TRUE ;
+	m_IdExpandButton = IdExpandButton;
+	m_IdCollapsedMark = IdCollapsedMark;
+	m_IdCollapsedText = IdCollapsedText;
+	m_bIsInitialized = TRUE;
+	m_pDialog = pDialog;
+	m_bIsExpanded = TRUE;
 
-  m_pDialog->GetWindowRect(&m_dialogrect) ;	  // rectangle of the dialog window
-  m_pDialog->GetDlgItemText(IdExpandButton, m_sTextMore) ;
-  m_pDialog->GetDlgItemText(IdCollapsedText, m_sTextLess) ;
+	GetWindowRect(m_pDialog, &m_dialogrect);	  // rectangle of the dialog window
 
-  CWnd *pWndMark = m_pDialog->GetDlgItem(m_IdCollapsedText) ;
-  pWndMark->ShowWindow(SW_HIDE);	// hide the "delimiting" control
+	GetDlgItemText(m_pDialog, IdExpandButton, m_sTextMore, 128);
+	GetDlgItemText(m_pDialog, IdCollapsedText, m_sTextLess, 128);
 
-  pWndMark = m_pDialog->GetDlgItem(m_IdCollapsedMark) ;
-  pWndMark->ShowWindow(SW_HIDE);	// hide the "delimiting" control
+	HWND pWndMark = GetDlgItem(m_pDialog, m_IdCollapsedText);
+	ShowWindow(pWndMark, SW_HIDE);	// hide the "delimiting" control
 
-  if (bInitiallyExpanded)
-  {
-	CWnd *pButton = m_pDialog->GetDlgItem(m_IdExpandButton) ;
-	pButton->SetWindowText(m_sTextLess ) ;
-  }
-  else
-	OnExpandButton() ;
+	pWndMark = GetDlgItem(m_pDialog, m_IdCollapsedMark);
+	ShowWindow(pWndMark, SW_HIDE);	// hide the "delimiting" control
+
+	if(bInitiallyExpanded)
+	{
+		HWND pButton = GetDlgItem(m_pDialog, m_IdExpandButton);
+		SetWindowText(pButton, m_sTextLess);
+	}
+	else
+	{
+		OnExpandButton();
+	}
 }
 
 
 void CExpandDialog::OnExpandButton()
 {
-  ASSERT(m_bIsInitialized) ;
+	HWND pButton;
+	m_bIsExpanded = !m_bIsExpanded;
 
-  CWnd *pButton ;
-  m_bIsExpanded = !m_bIsExpanded ;
+	if(m_bIsExpanded)
+	{
+		RECT dlgrect;
+		GetWindowRect(m_pDialog, &dlgrect);
+		dlgrect.right = dlgrect.left + (m_dialogrect.right - m_dialogrect.left);
+		dlgrect.bottom = dlgrect.top + (m_dialogrect.bottom - m_dialogrect.top);
+		MoveWindow(m_pDialog, dlgrect.left, dlgrect.top, dlgrect.right-dlgrect.left, dlgrect.bottom-dlgrect.top, TRUE);
+	}
+	else
+	{
+		ShrinkDialog(m_pDialog, m_IdCollapsedMark);
+	}
 
-  if (m_bIsExpanded)
-  {
-	// ShrinkDialog(m_pDialog, m_IdExpandedMark) ;
-	CRect rect ;
-	m_pDialog->GetWindowRect(&rect) ;
-	rect.bottom = rect.top + m_dialogrect.Height() ;
-	rect.right = rect.left + m_dialogrect.Width() ;
-	m_pDialog->MoveWindow (&rect) ;
-  }
-  else
-	ShrinkDialog(m_pDialog, m_IdCollapsedMark ) ;
-
-
-  pButton = m_pDialog->GetDlgItem(m_IdExpandButton) ;
-  pButton->SetWindowText(!m_bIsExpanded ? m_sTextMore : m_sTextLess ) ;
-
+	pButton = GetDlgItem(m_pDialog, m_IdExpandButton);
+	SetWindowText(pButton, !m_bIsExpanded ? m_sTextMore : m_sTextLess);
 }
 
 

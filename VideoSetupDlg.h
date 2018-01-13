@@ -1,44 +1,48 @@
 // VideoSetupDlg.h : header file
 //
 
-#if !defined(AFX_VIDEOSETUPDLG_H__2E7FAEE2_8021_4883_9C73_F69AD99145CD__INCLUDED_)
-#define AFX_VIDEOSETUPDLG_H__2E7FAEE2_8021_4883_9C73_F69AD99145CD__INCLUDED_
+#if !defined(__VIDEOSETUPDLG_H__)
+#define __VIDEOSETUPDLG_H__
 
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <string>
 #include "genesis.h"
 #include "DialogExpander.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CVideoSetupDlg dialog
 
-class CVideoSetupDlg : public CDialog
+class CVideoSetupDlg
 {
-// Construction
+	// Construction
 public:
-	CVideoSetupDlg(CWnd* pParent = NULL);	// standard constructor
+	CVideoSetupDlg(HWND pParent = NULL);	// standard constructor
+	~CVideoSetupDlg();
+
+	BOOL Create();
+	BOOL IsInitialized()	{ return m_bInit; }
+	HWND GetHWnd()			{ return m_hWnd; }
 
 	unsigned int COLOR_DEPTH;
 	unsigned int ZBUFFER_DEPTH;
 	int			 DRIVERTYPE;
 	int			 SCREENSIZE;
 
-// Dialog Data
-	//{{AFX_DATA(CVideoSetupDlg)
 	enum { IDD = IDD_VIDEOSETUP_DIALOG };
-	CButton	m_advance;
-	CButton	m_B32bit;
-	CButton	m_B16bit;
-	CButton	m_Bsizewin;
-	CButton	m_Bsizevhigh;
-	CButton	m_Bsizemed;
-	CButton	m_Bsizelow;
-	CButton	m_Bsizehigh;
-	CButton	m_Bopengl;
-	CButton	m_Bd3d32;
-	CButton	m_Bd3d16;
+	HWND	m_advance;
+	HWND	m_B32bit;
+	HWND	m_B16bit;
+	HWND	m_Bsizewin;
+	HWND	m_Bsizevhigh;
+	HWND	m_Bsizemed;
+	HWND	m_Bsizelow;
+	HWND	m_Bsizehigh;
+	HWND	m_Bopengl;
+	HWND	m_Bd3d32;
+	HWND	m_Bd3d16;
 	int		m_d3d16;
 	int		m_d3d32;
 	int		m_opengl;
@@ -49,53 +53,56 @@ public:
 	int		m_sizewin;
 	int		m_16bit;
 	int		m_32bit;
-	//}}AFX_DATA
+	BOOL	m_TripleBuffering;
+	BOOL	m_TextureCompression;
+	BOOL	m_FSAA;
+	BOOL	m_ExtraTextures;
+	BOOL	m_NoVSync;
+	BOOL	m_ASync;
+	BOOL	m_DoNotWait;
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CVideoSetupDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	//}}AFX_VIRTUAL
 
+protected:
 	void SetColorDepth();
 	void SetResolution();
+	BOOL ReadIni();
+	void WriteIni(unsigned int ColorDepth, unsigned int ZDepth);
+	BOOL UpdateData(BOOL bSaveAndValidate = TRUE);
 
-	geEngine			*m_pEngine;
-	geDriver			*m_pDriver;
-	geDriver_Mode		*m_pMode;
-	geDriver_System		*m_pDriverSystem;
-	CString	m_drivername;
+	geEngine		*m_pEngine;
+	geDriver		*m_pDriver;
+	geDriver_Mode	*m_pMode;
+	geDriver_System	*m_pDriverSystem;
+	std::string	m_drivername;
 	bool driver[3][2];
 	bool resolution16[3][5];
 	bool resolution32[3][5];
+	HWND m_hWnd;
+	BOOL m_bInit;
+	HANDLE hLogo;
 
 // Implementation
-protected:
+public:
 	HICON m_hIcon;
 
-	CExpandDialog m_ExpandDialog ;
+	CExpandDialog m_ExpandDialog;
+	BOOL WritePrivateProfileInt(LPCTSTR lpAppName, LPCTSTR lpKeyName, INT Value, LPCTSTR lpFileName);
 
-	// Generated message map functions
-	//{{AFX_MSG(CVideoSetupDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	afx_msg void OnD3d32();
-	afx_msg void OnD3d16();
-	afx_msg void OnOpengl();
-	afx_msg void On16bit();
-	afx_msg void On32bit();
-	afx_msg void OnLow();
-	afx_msg void OnMed();
-	afx_msg void OnHigh();
-	afx_msg void OnVhigh();
-	afx_msg void OnWindow();
-	afx_msg void OnAdvance();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+	BOOL OnInitDialog();
+	void OnPaint();
+	HCURSOR OnQueryDragIcon();
+	void OnD3d32();
+	void OnD3d16();
+	void OnOpengl();
+	void On16bit();
+	void On32bit();
+	void OnLow();
+	void OnMed();
+	void OnHigh();
+	void OnVhigh();
+	void OnWindow();
+	void OnAdvance();
+	void OnOk();
 };
 
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_VIDEOSETUPDLG_H__2E7FAEE2_8021_4883_9C73_F69AD99145CD__INCLUDED_)
+#endif // !defined(__VIDEOSETUPDLG_H__)

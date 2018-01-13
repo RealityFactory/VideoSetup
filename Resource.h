@@ -18,7 +18,15 @@
 #define IDC_ADVANCE                     1010
 #define IDC_SHRINKMARK                  1011
 #define IDC_LESSTEXT                    1012
-#define IDC_SLIDER1                     1013
+#define IDC_TRIPLEBUFFERING             1014
+#define IDC_TEXTURECOMPRESSION          1015
+#define IDC_FSAA                        1016
+#define IDC_EXTRATEXTURES               1017
+#define IDC_NOVSYNC                     1018
+#define IDC_ASYNC                       1019
+#define IDC_DONOTWAIT                   1020
+#define IDC_LOGO                        1021
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 //
@@ -26,7 +34,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1014
+#define _APS_NEXT_CONTROL_VALUE         1022
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
